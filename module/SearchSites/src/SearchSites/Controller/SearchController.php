@@ -7,15 +7,16 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace DataGrabber\Controller;
+namespace SearchSites\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class SearchController extends AbstractActionController
 {
     public function indexAction()
     {
+        \var_dump(__METHOD__);
         return new ViewModel();
     }
 }
