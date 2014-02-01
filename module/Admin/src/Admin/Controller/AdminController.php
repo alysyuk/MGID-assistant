@@ -19,4 +19,19 @@ class AdminController extends AbstractActionController
         var_dump(__METHOD__);
         return new ViewModel();
     }
+    
+    public function addAction()
+    {
+        
+    }
+    
+    public function aditAction()
+    {
+        
+    }
+    
+    public function deleteAction()
+    {
+        
+    }
 }
