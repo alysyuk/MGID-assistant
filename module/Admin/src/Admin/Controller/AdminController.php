@@ -14,10 +14,15 @@ use Zend\View\Model\ViewModel;
 
 class AdminController extends AbstractActionController
 {
+    
+    protected $userTable;
+
     public function indexAction()
     {
-        var_dump(__METHOD__);
-        return new ViewModel();
+        phpinfo(); die;
+        return new ViewModel(array(
+            'users' => $this->getUserTable()->fetchAll()
+        ));        
     }
     
     public function addAction()
@@ -33,5 +38,15 @@ class AdminController extends AbstractActionController
     public function deleteAction()
     {
         
+    }
+    
+    public function getUserTable()
+    {
+        if (!$this->userTable) {
+            $sm = $this->getServiceLocator();
+            $this->userTable = $sm->get('Admin\Model\UserTable');
+        }
+        
+        return $this->userTable;
     }
 }

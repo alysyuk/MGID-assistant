@@ -21,6 +21,13 @@ class UserTable
         return $resultSet;
     }
 
+    /**
+     * Returns User by User id
+     * 
+     * @param type $id
+     * @return type
+     * @throws \Exception
+     */
     public function getUser($id)
     {
         $id = (int) $id;
@@ -33,14 +40,20 @@ class UserTable
         return $row;
     }
 
+    /**
+     * Saves the User
+     * 
+     * @param \Admin\Model\User $user
+     * @throws \Exception
+     */
     public function saveUser(User $user)
     {
         $data = array(
-            'artist' => $album->artist,
-            'title' => $album->title,
+            'email' => $user->email,
+            'password' => $user->password,
         );
 
-        $id = (int) $album->id;
+        $id = (int) $user->id;
         if (0 == $id) {
             $this->tableGateway->insert($data);
         } else {
@@ -52,8 +65,14 @@ class UserTable
         }
     }
 
-    public function deleteAlbum($id)
+    /**
+     * Deletes the User
+     * 
+     * @param type $id
+     */
+    public function deleteUser($id)
     {
+        $id = (int) $id;
         $this->tableGateway->delete(array('id' => $id));
     }
 
