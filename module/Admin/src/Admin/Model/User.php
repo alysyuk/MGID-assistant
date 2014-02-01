@@ -6,7 +6,6 @@ class User
 {
 
     public $id;
-    public $username;
     public $email;
     public $enabled;
     public $salt;

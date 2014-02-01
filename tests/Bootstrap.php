@@ -12,4 +12,10 @@ chdir(dirname(__DIR__));
  */
 include __DIR__ . '/../init_autoloader.php';
 
+/**
+ * @todo Refactor: move common definitions to separate "Common Tests" folder
+ * and use them in tests from there
+ */
+include __DIR__ . '/../tests/Modules/Admin/CommonTest.php';
+
 Zend\Mvc\Application::init(include 'config/application.config.php');
