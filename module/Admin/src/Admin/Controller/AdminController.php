@@ -27,6 +27,7 @@ class AdminController extends AbstractActionController
     
     public function addAction()
     {
+        return false;
         
     }
     
