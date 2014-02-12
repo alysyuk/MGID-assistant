@@ -52,9 +52,9 @@ class AdminController extends AbstractActionController
         return array('form' => $form);        
     }
 
-    public function aditAction()
+    public function editAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        $id = (int)$this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('admin', array(
                 'action' => 'add'
@@ -87,7 +87,28 @@ class AdminController extends AbstractActionController
 
     public function deleteAction()
     {
-        
+       $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('admin');
+        }
+ 
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $del = $request->getPost('del', 'No');
+ 
+            if ('Yes' == $del) {
+                $id = (int) $request->getPost('id');
+                $this->getUserTable()->deleteUser($id);
+            }
+ 
+            // Redirect to list of users
+            return $this->redirect()->toRoute('admin');
+        }
+ 
+        return array(
+            'id'    => $id,
+            'user' => $this->getUserTable()->getUser($id)
+        );        
     }
 
     public function getUserTable()
