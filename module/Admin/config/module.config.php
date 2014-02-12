@@ -6,7 +6,7 @@ return array(
             'admin' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/admin[/][/:action][/:id]',
+                    'route'    => '/admin[/:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',

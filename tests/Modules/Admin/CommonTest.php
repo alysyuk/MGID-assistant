@@ -19,7 +19,6 @@ class CommonTest
         'id' => self::TEST_USER_ID,
         'email' => 'test@test.com',
         'enabled' => true,
-        'salt' => 'test_salt',
         'password' => 'test_pass',
         'last_login' => 1390354156,
         'roles' => 'admin',

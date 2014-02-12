@@ -23,10 +23,10 @@ $this->headTitle($title);
 <tr>
     <td><?php echo $this->escapeHtml($user->email);?></td>
     <td><?php echo $this->escapeHtml($user->enabled);?></td>
-    <td><?php echo $this->escapeHtml($user->roles);?></td>
+    <td><?php echo $this->escapeHtml($user->role);?></td>
     <td><?php echo $this->escapeHtml($user->firstname);?></td>
     <td><?php echo $this->escapeHtml($user->lastname);?></td>
-    <td><?php echo $this->escapeHtml($user->created_at);?></td>
+    <td><?php echo $this->escapeHtml(date('Y-m-d H:i:s', $user->created_at));?></td>
 
     <td>
         <a href="<?php echo $this->url('admin',

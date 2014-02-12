@@ -24,8 +24,8 @@ class UserTable
     /**
      * Returns User by User id
      * 
-     * @param type $id
-     * @return type
+     * @param type $id User id
+     * @return \Zend\Db\ResultSet\ResultSetInterface
      * @throws \Exception
      */
     public function getUser($id)
@@ -48,10 +48,7 @@ class UserTable
      */
     public function saveUser(User $user)
     {
-        $data = array(
-            'email' => $user->email,
-            'password' => $user->password,
-        );
+        $data = get_object_vars($user);
 
         $id = (int) $user->id;
         if (0 == $id) {

@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * @todo Refactor: use only for "dev" environment
+ */
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
