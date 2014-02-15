@@ -16,7 +16,7 @@ $this->headTitle($title);
     <th>Role</th>
     <th>First name</th>
     <th>Last name</th>
-    <th>Created at</th>
+    <th>Created\modified</th>
     <th>&nbsp;</th>
 </tr>
 <?php foreach ($users as $user) : ?>
@@ -26,7 +26,7 @@ $this->headTitle($title);
     <td><?php echo $this->escapeHtml($user->role);?></td>
     <td><?php echo $this->escapeHtml($user->firstname);?></td>
     <td><?php echo $this->escapeHtml($user->lastname);?></td>
-    <td><?php echo $this->escapeHtml(date('Y-m-d H:i:s', $user->created_at));?></td>
+    <td><?php echo $this->escapeHtml(date('Y-m-d H:i', $user->created_at));?></td>
 
     <td>
         <a href="<?php echo $this->url('admin',

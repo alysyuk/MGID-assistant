@@ -18,8 +18,17 @@ class User implements InputFilterAwareInterface
     public $firstname;
     public $lastname;
     public $created_at;
+    
+    /**
+     * @var inputFilter
+     */    
     protected $inputFilter;    
-
+    
+    /**
+     * Set current fields with data
+     * 
+     * @param array $data
+     */
     public function exchangeArray(array $data)
     {
         $userProperties = array_keys(get_class_vars(__CLASS__));
@@ -34,11 +43,14 @@ class User implements InputFilterAwareInterface
         if (!empty($data['password'])) {
             $this->password = sha1($data['password']);
         }
-        
-        $this->created_at = time();
+
+        // setting date
+        if (empty($data['created_at'])) {
+            $this->created_at = time();            
+        }        
         
     }
-    
+   
     /**
      * {@inheritdoc}
      */
@@ -81,6 +93,20 @@ class User implements InputFilterAwareInterface
                             'message' => 'Email address format is invalid. Use the basic format test@test.com'
                         ),
                     ),
+                    array(
+                        'name'    => 'Db\NoRecordExists',
+                        'options' => array(
+                            'table' => 'user',
+                            'field' => 'email',
+                            'adapter' => \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter(),
+                            'message' => 'This email address exists',
+                            // to perform for new user and already existed one
+                            'exclude' => array(
+                                'field' => 'id',
+                                'value' => $this->id ?: 1
+                            )
+                        ),
+                    ),                   
                 ),
             )));
             
@@ -144,9 +170,14 @@ class User implements InputFilterAwareInterface
         return $this->inputFilter;
     }    
     
+    /**
+     * Get data as array
+     * 
+     * @return array
+     */
     public function getArrayCopy()
     {
         return get_object_vars($this);
-    }    
+    }
 
 }

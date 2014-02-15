@@ -61,7 +61,7 @@ class AdminController extends AbstractActionController
             ));
         }
         $user = $this->getUserTable()->getUser($id);
- 
+
         $form  = new NewUserForm();
         $form->bind($user);
         $form->get('submit')->setAttribute('value', 'Edit');
@@ -114,8 +114,7 @@ class AdminController extends AbstractActionController
     public function getUserTable()
     {
         if (!$this->userTable) {
-            $sm = $this->getServiceLocator();
-            $this->userTable = $sm->get('Admin\Model\UserTable');
+            $this->userTable = $this->getServiceLocator()->get('Admin\Model\UserTable');
         }
 
         return $this->userTable;

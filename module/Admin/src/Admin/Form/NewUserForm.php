@@ -19,9 +19,9 @@ class NewUserForm extends Form
     public static $allowedEnabledStates = array(
         self::ENABLED_ACTIVE => 'active',
         self::ENABLED_SUSPENDED => 'suspended',
-    );    
-
-    public function __construct($name = null)
+    );
+    
+    public function __construct()
     {
         // we want to ignore the name passed
         parent::__construct('user');

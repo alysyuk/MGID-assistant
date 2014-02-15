@@ -16,6 +16,7 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 
 class Module
 {
@@ -24,6 +25,14 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
+        /*
+         * injecting database adapter into GlobalAdapterFeature to get it directly, 
+         * not via service locator from everywhere in application
+         */
+        $serviceManager = $e->getApplication()->getServiceManager();
+        $dbAdapter      = $serviceManager->get('Zend\Db\Adapter\Adapter');
+        GlobalAdapterFeature::setStaticAdapter($dbAdapter);
     }
 
     public function getConfig()
