@@ -9,6 +9,8 @@
 
 namespace SearchSites\Controller;
 
+use SearchSites\Form\SearchSitesForm;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -16,7 +18,27 @@ class SearchController extends AbstractActionController
 {
     public function indexAction()
     {
-        \var_dump(__METHOD__);
-        return new ViewModel();
+        $form = new SearchSitesForm();
+        $form->get('submit')->setValue('Search');
+
+        /* @var $request \Zend\Http\Request */
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            var_dump('test');
+            $user = new User();
+            $form->setInputFilter($user->getInputFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $user->exchangeArray($form->getData());
+
+                $this->getUserTable()->saveUser($user);
+
+                // Redirect to list of users
+                return $this->redirect()->toRoute('admin');
+            }
+        }
+        
+        return array('form' => $form);
     }
 }

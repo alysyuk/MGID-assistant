@@ -23,7 +23,6 @@ class NewUserForm extends Form
     
     public function __construct()
     {
-        // we want to ignore the name passed
         parent::__construct('user');
         
         $this->setAttribute('method', 'post');
