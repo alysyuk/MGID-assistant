@@ -24,12 +24,12 @@ class SearchController extends AbstractActionController
         /* @var $request \Zend\Http\Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
-            var_dump('test');
-            $user = new User();
-            $form->setInputFilter($user->getInputFilter());
+//            $user = new User();
+//            $form->setInputFilter($user->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
+                var_dump($request->getPost()); die;
                 $user->exchangeArray($form->getData());
 
                 $this->getUserTable()->saveUser($user);

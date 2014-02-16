@@ -38,6 +38,7 @@ class NewUserForm extends Form
             'name' => 'email',
             'attributes' => array(
                 'type'  => 'email',
+                'required' => 'required'
             ),
             'options' => array(
                 'label' => 'Email',
@@ -48,6 +49,7 @@ class NewUserForm extends Form
             'name' => 'password',
             'attributes' => array(
                 'type'  => 'password',
+                'required' => 'required'
             ),
             'options' => array(
                 'label' => 'Password',
