@@ -29,7 +29,13 @@ class SearchController extends AbstractActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                var_dump($request->getPost()); die;
+                if (empty($request->getPost()['fieldset']['search_option'])) {
+                    throw new \LogicException('Not passed search type');
+                }
+                $className = '\SearchSites\SearchProcessor\SearchType\\' 
+                    . $request->getPost()['fieldset']['search_option'];
+                $searchType = new $className;
+                var_dump($request->getPost(), $searchType); die;
                 $user->exchangeArray($form->getData());
 
                 $this->getUserTable()->saveUser($user);

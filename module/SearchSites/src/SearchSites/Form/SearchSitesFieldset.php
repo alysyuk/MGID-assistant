@@ -1,20 +1,20 @@
 <?php
 
 namespace SearchSites\Form;
- 
+
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
  
 class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterface
 {
     
-    const SEARCH_SITES = 'search_sites';
-    const SEARCH_ENGINES = 'search_engines';
-    const ISPIONAGE = 'Ispionage';    
+    const SEARCH_SITES = 'SearchViaSites';
+    const SEARCH_ENGINES = 'SearchViaEngines';
+    const ISPIONAGE = 'SearchViaIspionage';    
 
     public static $searchOptions = array(
-        self::SEARCH_SITES => 'Search sites(similarsites.com,xmarks.com)',
-        self::SEARCH_ENGINES => 'Search engines(google,yahoo)',
+        self::SEARCH_SITES => 'Search sites (similarsites.com,xmarks.com)',
+        self::SEARCH_ENGINES => 'Search engines (google,yahoo)',
         self::ISPIONAGE => 'Ispionage'
     );    
     
@@ -31,7 +31,7 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
             ),
             'attributes' => array(
                 'value' => self::SEARCH_SITES
-            )                
+            )
         ));
 
         $this->add(array(
@@ -60,20 +60,31 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
                 'label' => 'Iteration amount',
             ),
             'attributes' => array(
-//                'required' => 'required'
+                'required' => 'required'
             )            
         ));
         
-//        $this->add(array(
-//            'type'  => 'text',
-//            'name' => 'alexa_rate',
-//            'options' => array(
-//                'label' => 'Alexa rate(no delimiters: 2000, 10000, etc)',
-//            ),
-//            'attributes' => array(
-//                'required' => 'required'
-//            )            
-//        ));        
+        $this->add(array(
+            'type'  => 'text',
+            'name' => 'alexa_rate_from',
+            'options' => array(
+                'label' => 'Alexa rate (example: 1000 - 10000)',
+            ),
+            'attributes' => array(
+                'required' => 'required'
+            )            
+        ));
+        
+        $this->add(array(
+            'type'  => 'text',
+            'name' => 'alexa_rate_to',
+            'options' => array(
+                'label' => '-',
+            ),
+            'attributes' => array(
+                'required' => 'required'
+            )            
+        ));        
         
     }
     
@@ -90,23 +101,44 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
             'iteration' => array(
                 'required' => true,
                 'validators' => array(
-                    new \Zend\Validator\Digits(),
+                    // to use 'break_chain_on_failure' parameter
+                    array(
+                        'name' => 'digits',
+                        'break_chain_on_failure' => true,
+                    ),
+                    
                     new \Zend\Validator\Between(array('min' => 1, 'max' => 10)),
                 ),
-                'filters' => array(
-                    array('name' => 'Zend\Filter\Int'),
-                ),                
             ),
             
-//            'alexa_rate' => array(
-//                'required' => true,
-//                'validators' => array(
-//                    new \Zend\Validator\Digits(),
-//                ),
-//                'filters' => array(
-//                    array('name' => 'Zend\Filter\Int'),
-//                ),
-//            )
+            'alexa_rate_from' => array(
+                'required' => true,
+                'validators' => array(
+                    new \Zend\Validator\Digits(),
+                ),
+            ),
+            
+            'alexa_rate_to' => array(
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' => 'digits',
+                        'break_chain_on_failure' => true,
+                    ),                    
+                    array(
+                        'name' => 'Callback',
+                        'options' => array(
+                            'messages' => array(
+                                \Zend\Validator\Callback::INVALID_VALUE => 
+                                'End value of Alexa range should be more than start value',
+                            ),
+                            'callback' => function($value, $context = array()) {
+                                return $value > $context['alexa_rate_from'];
+                            },
+                        ),
+                    ),                    
+                ),
+            ),
         );
     }
 
