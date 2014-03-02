@@ -11,12 +11,18 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
     const SEARCH_SITES = 'SearchViaSites';
     const SEARCH_ENGINES = 'SearchViaEngines';
     const ISPIONAGE = 'SearchViaIspionage';    
+    
+    const SEARCH_BY = 'search_by';
+    const ITERATION = 'iteration';
+    const ALEXA_RATE_FROM = 'alexa_rate_from';
+    const ALEXA_RATE_TO = 'alexa_rate_to';
+    
 
     public static $searchOptions = array(
         self::SEARCH_SITES => 'Search sites (similarsites.com,xmarks.com)',
         self::SEARCH_ENGINES => 'Search engines (google,yahoo)',
         self::ISPIONAGE => 'Ispionage'
-    );    
+    );
     
     public function __construct()
     {
@@ -36,7 +42,7 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
 
         $this->add(array(
             'type'  => 'text',
-            'name' => 'search_by',
+            'name' => self::SEARCH_BY,
             'options' => array(
                 'label' => 'Site name/keyword',
             ),
@@ -55,7 +61,7 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
         
         $this->add(array(
             'type'  => 'text',
-            'name' => 'iteration',
+            'name' => self::ITERATION,
             'options' => array(
                 'label' => 'Iteration amount',
             ),
@@ -66,7 +72,7 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
         
         $this->add(array(
             'type'  => 'text',
-            'name' => 'alexa_rate_from',
+            'name' => self::ALEXA_RATE_FROM,
             'options' => array(
                 'label' => 'Alexa rate (example: 1000 - 10000)',
             ),
@@ -77,7 +83,7 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
         
         $this->add(array(
             'type'  => 'text',
-            'name' => 'alexa_rate_to',
+            'name' => self::ALEXA_RATE_TO,
             'options' => array(
                 'label' => '-',
             ),
@@ -94,11 +100,11 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
     public function getInputFilterSpecification()
     {
         return array(
-            'search_by' => array(
+            self::SEARCH_BY => array(
                 'required' => true
             ),
             
-            'iteration' => array(
+            self::ITERATION => array(
                 'required' => true,
                 'validators' => array(
                     // to use 'break_chain_on_failure' parameter
@@ -111,14 +117,14 @@ class SearchSitesFieldset extends Fieldset implements InputFilterProviderInterfa
                 ),
             ),
             
-            'alexa_rate_from' => array(
+            self::ALEXA_RATE_FROM => array(
                 'required' => true,
                 'validators' => array(
                     new \Zend\Validator\Digits(),
                 ),
             ),
             
-            'alexa_rate_to' => array(
+            self::ALEXA_RATE_TO => array(
                 'required' => true,
                 'validators' => array(
                     array(
