@@ -98,9 +98,9 @@ abstract class AbstractSearchType implements SearchTypeInterface
      */
     public function validateSearchParameters(array $data)
     {
-        $obligatoreFileds = self::$obligatoryParametersForPerformigSearch;
+        $obligatoryFileds = self::$obligatoryParametersForPerformigSearch;
 
-        foreach ($obligatoreFileds as $field) {
+        foreach ($obligatoryFileds as $field) {
             if (!array_key_exists($field, $data)) {
                 throw new \InvalidArgumentException($field);
             }

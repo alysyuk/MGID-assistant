@@ -11,30 +11,63 @@ class SearchViaSites extends AbstractSearchType
     public function performSearching()
     {
         
+//        $html = '
+//            <div class="container">
+//               <div class="accordion">
+//                Test1
+//                <div class="accordion">
+//                  Test2
+//                    <div class="accordion">
+//                        Test3
+//                    </div>
+//                </div>
+//            </div>
+//            <div class="accordion">
+//                Name
+//                <div class="accordion">
+//                  Name2
+//                    <div class="accordion">
+//                        Name3
+//                    </div>
+//                </div>
+//            </div>
+//         </div>
+//        ';
+//
+//       $dom = new \Zend\Dom\Query($html);
+//       // Will returns the first levels .accordion in .container ($results length is 2)
+//        $results = $dom->execute('.container .accordion');
+        
         $client = $this->getHttpClient();
-        $client->setUri(self::SIMILARSITES_URL . $this->getSearchBy());
+        $client->setUri(self::SIMILARSITES_URL . $this->getSearchBy())
+               ->setOptions(array(
+                   'maxredirects' => 0,
+                   'timeout' => 30
+               ))
+               ->setHeaders(array(
+                    'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'User-Agent' => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+               ));
         $result = $client->send();
         $body = $result->getBody();
-        
-//        $testHtml = '<h3><img src="wow/img.jpg" /><a href="http://wow.com">wow link</a></h3>';
-//
-//        $dom = $this->getQueryDom();
-//        $dom->setDocument($testHtml);
-//        // get a element using css child selector
-//        $result = $dom->execute('h3 > a');
-//        var_dump($result->current()->getAttribute('href')); die;
-        
-        
-
+        file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . 'test.txt', $body);
         $queryDom = $this->getQueryDom();
         $queryDom->setDocumentHtml($body);
-        $results = $queryDom->execute('.similarSites .similarSitesList .result .result-content-wrapper .link');
-        var_dump($results->count()); die;
-        $count = count($results->current()); // get number of matches: 4
-        foreach ($results as $result) {
-            var_dump($result->textContent);
+
+        $results = $queryDom->execute('#similarSites .similarSitesList');
+//        $results = $queryDom->execute('.modalDialog h2');
+        
+//        var_dump($results);
+        echo '<pre>';
+        print_r($results->current());
+        echo '</pre>';
+
+//        print_r($results->current()->textContent);
+        die;
+//        foreach ($results as $result) {
+//            print_r($result->nodeValue);
             // $result is a DOMElement
-        }
+//        }
         
     }
 
